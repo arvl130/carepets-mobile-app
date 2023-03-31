@@ -5,9 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { getAuth, onAuthStateChanged } from '@firebase/auth';
-import { onMounted, ref } from 'vue';
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
+import { getAuth, onAuthStateChanged } from "@firebase/auth"
+import { onMounted, ref } from "vue"
+import { IonApp, IonRouterOutlet } from "@ionic/vue"
 
 const isAuthLoaded = ref(false)
 
@@ -18,3 +18,9 @@ onMounted(() => {
   })
 })
 </script>
+
+<style>
+:root {
+  --ion-toolbar-background: transparent;
+}
+</style>

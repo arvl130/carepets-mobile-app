@@ -1,35 +1,41 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-        <main> 
-          <ion-button color="light" @click="onClick">GET STARDED > </ion-button>
-    </main>
+      <div class="h-8"></div>
+      <main>
+        <ion-button color="light" @click="onClick">GET STARTED »</ion-button>
+      </main>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from '@ionic/vue';
-import { useRouter } from 'vue-router';
+import { IonContent, IonPage, IonButton } from "@ionic/vue"
+import { useRouter } from "vue-router"
+import { useRedirectIfAuthenticated } from "../hooks/redirects"
+
+useRedirectIfAuthenticated()
 
 const router = useRouter()
-function onClick(){
-  router.push("/create-account")
+function onClick() {
+  router.push("/signin")
 }
 </script>
 
 <style scoped>
-  main  {
-    background-image: url("../assets/bg.png");
-    background-size: contain;
-    min-height: 100%; 
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: #c0f1f7;
-    display: flex;
-    justify-content: center; 
-    align-items: end;
-    padding-bottom: 4rem;
-    
-  } 
+ion-content {
+  --background: #c0f1f7;
+}
+
+main {
+  background-image: url("../assets/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 3rem;
+}
 </style>

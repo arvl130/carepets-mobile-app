@@ -1,34 +1,72 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header :translucent="true" class="ion-no-border">
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/getting-started"></ion-back-button>
+        </ion-buttons>
         <ion-title>Sign In</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
-      <ion-list>
-        <ion-item>
-          <ion-label>Email</ion-label>
-          <ion-input type="email" v-model="email"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>Password</ion-label>
-          <ion-input type="password" v-model="password"></ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-button :expand="'block'" @click="onSignIn">Sign In</ion-button>
+      <main class="pt-24">
+        <ion-input
+          class="border-2 border-blue-600 rounded-2xl bg-white mb-3"
+          type="email"
+          placeholder="Email"
+          v-model="email"
+        />
+        <ion-input
+          class="border-2 border-blue-600 rounded-2xl bg-white mb-3"
+          type="password"
+          placeholder="Password"
+          v-model="password"
+        />
+        <div class="flex justify-end mb-8">
+          <ion-nav-link class="underline text-gray-500">
+            Forgot Password?
+          </ion-nav-link>
+        </div>
+        <ion-button :expand="'block'" @click="onSignIn" class="mb-8">
+          Sign In
+        </ion-button>
+        <div class="text-gray-500 text-center">
+          Don't have an account?
+          <ion-text
+            class="underline"
+            router-link="/signup"
+            router-direction="forward"
+          >
+            Sign Up
+          </ion-text>
+        </div>
+      </main>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { signInWithEmailAndPassword } from '@firebase/auth';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar,
-IonList, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { signInWithEmailAndPassword } from "@firebase/auth"
+import {
+  IonNavLink,
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonInput,
+  IonButton,
+  IonButtons,
+  IonText,
+  IonBackButton,
+} from "@ionic/vue"
+import { ref } from "vue"
+import { useRouter } from "vue-router"
 import { auth } from "../firebase"
+import { useRedirectIfAuthenticated } from "../hooks/redirects"
+
+useRedirectIfAuthenticated()
 
 const email = ref("")
 const password = ref("")
@@ -39,36 +77,30 @@ async function onSignIn() {
 
   email.value = ""
   password.value = ""
-  router.push("/dashboard")
+  router.replace("/dashboard")
 }
 </script>
 
 <style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+ion-content {
+  --background: no-repeat center url("../assets/bg-notext.png");
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+main {
+  backdrop-filter: blur(5px);
+  min-height: 100%;
+  padding-bottom: 3rem;
+  padding-inline: 1rem;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
+ion-input {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
 }
 
-#container a {
-  text-decoration: none;
+ion-button {
+  --background: #2c64c6;
+  --box-shadow: none;
+  --border-radius: 9999px;
 }
 </style>
