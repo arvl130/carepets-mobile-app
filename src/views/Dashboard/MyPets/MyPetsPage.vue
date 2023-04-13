@@ -50,6 +50,9 @@ import {
   IonToolbar,
   IonButtons,
   IonBackButton,
+  IonItem,
+  IonGrid,
+  IonRow,
 } from "@ionic/vue"
 import { useRouter } from "vue-router"
 import { useRedirectIfUnauthenticated } from "../../../hooks/redirects"
