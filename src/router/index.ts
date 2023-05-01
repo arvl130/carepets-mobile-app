@@ -10,12 +10,12 @@ import GroomingPage from "../views/Dashboard/Services/GroomingPage.vue"
 import VaccinePage from "../views/Dashboard/Services/VaccinePage.vue"
 import AboutUsPage from "../views/Dashboard/AboutUsPage.vue"
 import MyPetsPage from "../views/Dashboard/MyPets/MyPetsPage.vue"
-import CatsPage from "../views/Dashboard/MyPets/Cats/CatsPage.vue"
-import AddCatPage from "../views/Dashboard/MyPets/Cats/AddCatPage.vue"
-import EditCatPage from "../views/Dashboard/MyPets/Cats/EditCatPage.vue"
-import DogsPage from "../views/Dashboard/MyPets/Dogs/DogsPage.vue"
-import AddDogPage from "../views/Dashboard/MyPets/Dogs/AddDogPage.vue"
-import EditDogPage from "../views/Dashboard/MyPets/Dogs/EditDogPage.vue"
+import CatsPage from "../views/Dashboard/MyPets/Cats/CatsPage/CatsPage.vue"
+import AddCatPage from "../views/Dashboard/MyPets/Cats/AddCatPage/AddCatPage.vue"
+import EditCatPage from "../views/Dashboard/MyPets/Cats/EditCatPage/EditCatPage.vue"
+import DogsPage from "../views/Dashboard/MyPets/Dogs/DogsPage/DogsPage.vue"
+import AddDogPage from "../views/Dashboard/MyPets/Dogs/AddDogPage/AddDogPage.vue"
+import EditDogPage from "../views/Dashboard/MyPets/Dogs/EditDogPage/EditDogPage.vue"
 
 const routes: Array<RouteRecordRaw> = [
   {

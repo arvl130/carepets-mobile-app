@@ -1,6 +1,8 @@
 import { createApp } from "vue"
 import App from "./App.vue"
 import router from "./router"
+import { createPinia } from "pinia"
+import { VueQueryPlugin } from "@tanstack/vue-query"
 
 import { IonicVue } from "@ionic/vue"
 
@@ -61,7 +63,12 @@ library.add(
   faCat
 )
 
-const app = createApp(App).use(IonicVue).use(router)
+const pinia = createPinia()
+const app = createApp(App)
+  .use(IonicVue)
+  .use(router)
+  .use(pinia)
+  .use(VueQueryPlugin)
 
 router.isReady().then(() => {
   app.component("font-awesome-icon", FontAwesomeIcon)
