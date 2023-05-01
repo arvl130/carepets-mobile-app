@@ -33,3 +33,6 @@ npm-debug.log*
 
 # Don't include Android project in version control.
 android
+
+# Don't save file for environment variables
+.env
