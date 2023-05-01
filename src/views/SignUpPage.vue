@@ -9,27 +9,19 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
-      <main class="pt-24">
-        <ion-input
-          v-model="displayName"
-          placeholder="Name"
-          class="border-2 border-blue-600 rounded-2xl bg-white mb-3"
-        ></ion-input>
-        <ion-input
-          type="email"
-          v-model="email"
-          placeholder="Email"
-          class="border-2 border-blue-600 rounded-2xl bg-white mb-3"
-        ></ion-input>
-        <ion-input
-          type="password"
-          v-model="password"
-          placeholder="Password"
-          class="border-2 border-blue-600 rounded-2xl bg-white mb-8"
-        ></ion-input>
-        <ion-button :expand="'block'" @click="onSignUp">Sign Up</ion-button>
-      </main>
+    <ion-content :fullscreen="true" class="ion-padding">
+      <ion-list>
+        <ion-item>
+          <ion-input label="Name" v-model="displayName" />
+        </ion-item>
+        <ion-item>
+          <ion-input label="Email" type="email" v-model="email" />
+        </ion-item>
+        <ion-item>
+          <ion-input label="Password" type="password" v-model="password" />
+        </ion-item>
+      </ion-list>
+      <ion-button :expand="'block'" @click="onSignUp">Sign Up</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -45,6 +37,8 @@ import {
   IonInput,
   IonButtons,
   IonBackButton,
+  IonList,
+  IonItem,
 } from "@ionic/vue"
 import { ref } from "vue"
 import { useRouter } from "vue-router"
@@ -82,27 +76,3 @@ async function onSignUp() {
   }
 }
 </script>
-
-<style scoped>
-ion-content {
-  --background: no-repeat center url("../assets/bg-notext.png");
-}
-
-main {
-  backdrop-filter: blur(5px);
-  min-height: 100%;
-  padding-bottom: 3rem;
-  padding-inline: 1rem;
-}
-
-ion-input {
-  --padding-start: 1rem;
-  --padding-end: 1rem;
-}
-
-ion-button {
-  --background: #2c64c6;
-  --box-shadow: none;
-  --border-radius: 9999px;
-}
-</style>

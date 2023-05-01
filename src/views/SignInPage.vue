@@ -9,39 +9,47 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
-      <main class="pt-24">
-        <ion-input
-          class="border-2 border-blue-600 rounded-2xl bg-white mb-3"
-          type="email"
-          placeholder="Email"
-          v-model="email"
-        />
-        <ion-input
-          class="border-2 border-blue-600 rounded-2xl bg-white mb-3"
-          type="password"
-          placeholder="Password"
-          v-model="password"
-        />
-        <div class="flex justify-end mb-8">
-          <ion-nav-link class="underline text-gray-500">
-            Forgot Password?
-          </ion-nav-link>
-        </div>
-        <ion-button :expand="'block'" @click="onSignIn" class="mb-8">
-          Sign In
-        </ion-button>
-        <div class="text-gray-500 text-center">
-          Don't have an account?
-          <ion-text
-            class="underline"
-            router-link="/signup"
-            router-direction="forward"
-          >
-            Sign Up
-          </ion-text>
-        </div>
-      </main>
+    <ion-content :fullscreen="true" class="ion-padding">
+      <ion-list>
+        <ion-item>
+          <ion-input label="Email" labelPlacement="stacked" v-model="email" />
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Password"
+            labelPlacement="stacked"
+            type="password"
+            v-model="password"
+          />
+        </ion-item>
+      </ion-list>
+
+      <div class="flex justify-end mb-8">
+        <ion-nav-link class="underline text-gray-500">
+          Forgot Password?
+        </ion-nav-link>
+      </div>
+      <ion-button expand="full" @click="onSignIn" class="mb-8">
+        Sign In
+      </ion-button>
+      <div class="text-gray-500 text-center">
+        Don't have an account?
+        <ion-text
+          class="underline"
+          router-link="/signup"
+          router-direction="forward"
+        >
+          Sign Up
+        </ion-text>
+      </div>
+
+      <ion-alert
+        :is-open="alert.isOpen"
+        :header="alert.header"
+        :message="alert.message"
+        :buttons="['OK']"
+        @didDismiss="alert.isOpen = false"
+      />
     </ion-content>
   </ion-page>
 </template>
@@ -60,11 +68,15 @@ import {
   IonButtons,
   IonText,
   IonBackButton,
+  IonList,
+  IonItem,
 } from "@ionic/vue"
-import { ref } from "vue"
+import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
 import { auth } from "../firebase"
 import { useRedirectIfAuthenticated } from "../hooks/redirects"
+import { IonAlert } from "@ionic/vue"
+import { FirebaseError } from "firebase/app"
 
 useRedirectIfAuthenticated()
 
@@ -72,35 +84,48 @@ const email = ref("")
 const password = ref("")
 const router = useRouter()
 
-async function onSignIn() {
-  await signInWithEmailAndPassword(auth, email.value, password.value)
+const alert = reactive({
+  isOpen: false,
+  header: "",
+  message: "",
+})
 
-  email.value = ""
-  password.value = ""
-  router.replace("/dashboard")
+async function onSignIn() {
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value)
+
+    email.value = ""
+    password.value = ""
+    router.replace("/dashboard")
+  } catch (e) {
+    if (e instanceof FirebaseError) {
+      if (e.code === "auth/invalid-email") {
+        alert.header = "Invalid username or password"
+        alert.message =
+          "The username or password that you have entered is incorrect. Please try again."
+        alert.isOpen = true
+        return
+      }
+
+      if (e.code === "auth/user-not-found") {
+        alert.header = "No such user"
+        alert.message =
+          "The username or password that you have entered is incorrect. Please try again."
+        alert.isOpen = true
+        return
+      }
+
+      alert.header = "Unknown Firebase error occured"
+      alert.message = e.message
+      alert.isOpen = true
+      return
+    }
+
+    alert.header = "Unknown error occured"
+    alert.message =
+      "An unknown error has occured. Please check the Console tab for more information"
+    alert.isOpen = true
+    console.log(e)
+  }
 }
 </script>
-
-<style scoped>
-ion-content {
-  --background: no-repeat center url("../assets/bg-notext.png");
-}
-
-main {
-  backdrop-filter: blur(5px);
-  min-height: 100%;
-  padding-bottom: 3rem;
-  padding-inline: 1rem;
-}
-
-ion-input {
-  --padding-start: 1rem;
-  --padding-end: 1rem;
-}
-
-ion-button {
-  --background: #2c64c6;
-  --box-shadow: none;
-  --border-radius: 9999px;
-}
-</style>
