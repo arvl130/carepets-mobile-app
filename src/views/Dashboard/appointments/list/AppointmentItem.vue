@@ -96,7 +96,6 @@ const { mutate, isLoading } = useMutation({
   mutationFn: () => deleteAppointment(user.uid, appointment.id),
   onSuccess: () => {
     refetch()
-    console.log("delete succeeded")
   },
 })
 
@@ -115,7 +114,6 @@ function onCancel() {
       text: "OK",
       role: "confirm",
       handler: () => {
-        console.log("deleting")
         mutate()
       },
     },
@@ -131,14 +129,13 @@ function onDone() {
       text: "Cancel",
       role: "cancel",
       handler: () => {
-        console.log("canceled", appointment.id)
+        console.log("canceled")
       },
     },
     {
       text: "OK",
       role: "confirm",
       handler: () => {
-        console.log("deleting", appointment.id)
         mutate()
       },
     },

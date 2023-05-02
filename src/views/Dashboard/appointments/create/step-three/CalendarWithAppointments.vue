@@ -25,15 +25,9 @@ const { appointments } = defineProps({
 
 function isDateEnabled(dateStr: string) {
   const actualDate = dateStr.split("T")[0]
-  console.log(`ran for ${actualDate} with:`, appointments)
-  return !appointments.some((appointment) => {
-    if (appointment.actualDate === actualDate) {
-      console.log("disabled", actualDate)
-      return true
-    } else {
-      return false
-    }
-  })
+  return !appointments.some(
+    (appointment) => appointment.actualDate === actualDate
+  )
 }
 
 const minCalendarValue = ref("")

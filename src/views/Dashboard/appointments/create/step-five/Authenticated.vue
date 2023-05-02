@@ -69,10 +69,8 @@ const { mutate } = useMutation({
       selectedSlot: selectedSlot.value as "MORNING" | "AFTERNOON",
     }),
   onSuccess: async () => {
-    await refetch()
-    const result = await getAppointmentsByUser(user.uid)
-    console.log("new appointments list", result)
     router.replace("/appointments/create/confirmation")
+    await refetch()
     selectedDate.value = ""
     selectedSlot.value = ""
     selectedPetsWithServices.value = []
