@@ -17,6 +17,15 @@ import DogsPage from "../views/Dashboard/MyPets/Dogs/DogsPage/DogsPage.vue"
 import AddDogPage from "../views/Dashboard/MyPets/Dogs/AddDogPage/AddDogPage.vue"
 import EditDogPage from "../views/Dashboard/MyPets/Dogs/EditDogPage/EditDogPage.vue"
 
+// Appointments
+import ListAppointmentsPage from "../views/Dashboard/appointments/list/Page.vue"
+import CreateAppointmentStepOnePage from "../views/Dashboard/appointments/create/step-one/Page.vue"
+import CreateAppointmentStepTwoPage from "../views/Dashboard/appointments/create/step-two/Page.vue"
+import CreateAppointmentStepThreePage from "../views/Dashboard/appointments/create/step-three/Page.vue"
+import CreateAppointmentStepFourPage from "../views/Dashboard/appointments/create/step-four/Page.vue"
+import CreateAppointmentStepFivePage from "../views/Dashboard/appointments/create/step-five/Page.vue"
+import CreateAppointmentStepSixPage from "../views/Dashboard/appointments/create/step-six/Page.vue"
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -101,6 +110,41 @@ const routes: Array<RouteRecordRaw> = [
     path: "/about",
     name: "About Us",
     component: AboutUsPage,
+  },
+  {
+    path: "/appointments",
+    name: "Appointments",
+    component: ListAppointmentsPage,
+  },
+  {
+    path: "/appointments/create/choose-pet",
+    name: "Appointments - Step One",
+    component: CreateAppointmentStepOnePage,
+  },
+  {
+    path: "/appointments/create/choose-service",
+    name: "Appointments - Step Two",
+    component: CreateAppointmentStepTwoPage,
+  },
+  {
+    path: "/appointments/create/choose-date",
+    name: "Appointments - Step Three",
+    component: CreateAppointmentStepThreePage,
+  },
+  {
+    path: "/appointments/create/choose-slot",
+    name: "Appointments - Step Four",
+    component: CreateAppointmentStepFourPage,
+  },
+  {
+    path: "/appointments/create/summary",
+    name: "Appointments - Step Five",
+    component: CreateAppointmentStepFivePage,
+  },
+  {
+    path: "/appointments/create/confirmation",
+    name: "Appointments - Step Six",
+    component: CreateAppointmentStepSixPage,
   },
 ]
 

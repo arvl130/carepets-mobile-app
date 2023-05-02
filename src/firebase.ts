@@ -12,6 +12,7 @@ import {
   query,
   setDoc,
   where,
+  collectionGroup,
 } from "firebase/firestore"
 
 // Your web app's Firebase configuration
@@ -36,6 +37,21 @@ export type PartialPet = {
 
 export type Pet = PartialPet & {
   id: string
+}
+
+export async function getPets(userId: string) {
+  const db = getFirestore()
+  const pets: Pet[] = []
+
+  const querySnapshot = await getDocs(collection(db, `users/${userId}/pets`))
+  querySnapshot.forEach((doc) => {
+    pets.push({
+      id: doc.id,
+      ...(doc.data() as PartialPet),
+    })
+  })
+
+  return pets
 }
 
 export async function getDogs(userId: string) {
@@ -99,4 +115,62 @@ export async function editPet(
 export async function deletePet(userId: string, petId: string) {
   const db = getFirestore()
   await deleteDoc(doc(db, `users/${userId}/pets/${petId}`))
+}
+
+export type Appointment = {
+  id: string
+  actualDate: string
+  userId: string
+  slot: "MORNING" | "AFTERNOON"
+  pets: {
+    petId: string
+    serviceCodes: string[]
+  }[]
+}
+
+export async function getAppointmentsByUser(userId: string) {
+  const db = getFirestore()
+  const appointments: Appointment[] = []
+
+  const querySnapshot = await getDocs(
+    query(collectionGroup(db, "appointments"), where("userId", "==", userId))
+  )
+
+  querySnapshot.forEach((doc) => {
+    appointments.push({
+      id: doc.id,
+      ...doc.data(),
+    } as Appointment)
+  })
+
+  return appointments
+}
+
+export async function createAppointment(
+  userId: string,
+  scheduleDetails: {
+    selectedDate: string
+    selectedSlot: "MORNING" | "AFTERNOON"
+    pets: { petId: string; serviceCodes: string[] }[]
+  }
+) {
+  const db = getFirestore()
+  const actualDate = scheduleDetails.selectedDate.split("T")[0]
+
+  await addDoc(collection(db, `users/${userId}/appointments`), {
+    actualDate,
+    userId,
+    slot: scheduleDetails.selectedSlot,
+    pets: scheduleDetails.pets,
+  })
+}
+
+export async function deleteAppointment(userId: string, appointmentId: string) {
+  const db = getFirestore()
+  try {
+    await deleteDoc(doc(db, `users/${userId}/appointments/${appointmentId}`))
+    console.log("deleted appointment", appointmentId)
+  } catch (e) {
+    console.log("deleted appointment error", e)
+  }
 }

@@ -28,12 +28,14 @@
     "@tanstack/vue-query": "^4.29.5",
     "firebase": "^9.17.2",
     "ionicons": "^6.0.3",
+    "luxon": "^3.3.0",
     "pinia": "^2.0.35",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@capacitor/cli": "4.7.1",
+    "@types/luxon": "^3.3.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/test-utils": "^2.3.0",

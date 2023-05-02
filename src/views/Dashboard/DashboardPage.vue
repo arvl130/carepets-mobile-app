@@ -31,7 +31,7 @@
               <ion-item
                 button
                 :expand="'block'"
-                @click="onGoToMyPetsPage"
+                @click="onGoToAppointmentsPage"
                 class="rounded-2xl"
               >
                 <ion-grid class="py-4">
@@ -132,6 +132,10 @@ function onGoToServicesPage() {
 }
 function onGoToboutUsPage() {
   router.push("/about")
+}
+
+function onGoToAppointmentsPage() {
+  router.push("/appointments")
 }
 
 async function onLogout() {
