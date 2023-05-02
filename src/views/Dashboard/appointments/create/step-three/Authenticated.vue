@@ -14,17 +14,13 @@
 
 <script setup lang="ts">
 import { useNewAppointmentStore } from "@/store/new-appointment"
-import {
-  IonButton,
-  onIonViewDidEnter,
-  onIonViewWillEnter,
-  useIonRouter,
-} from "@ionic/vue"
+import { IonButton, onIonViewWillEnter, useIonRouter } from "@ionic/vue"
 import { User } from "firebase/auth"
 import { storeToRefs } from "pinia"
-import { PropType, onMounted, ref } from "vue"
-import { Appointment, getAppointmentsByUser } from "@/firebase"
+import { PropType } from "vue"
+import { getAppointmentsByUser } from "@/firebase"
 import CalendarWithAppointments from "./CalendarWithAppointments.vue"
+import { useQuery } from "@tanstack/vue-query"
 
 const { user } = defineProps({
   user: {
@@ -36,32 +32,16 @@ const { user } = defineProps({
 const newAppointmentStore = useNewAppointmentStore()
 const { selectedDate } = storeToRefs(newAppointmentStore)
 
-const isLoading = ref(true)
-const isError = ref(false)
-const appointments = ref<Appointment[] | undefined>()
-
-onMounted(async () => {
-  try {
-    isLoading.value = true
-    console.log("loading")
-    appointments.value = await getAppointmentsByUser(user.uid)
-  } catch {
-    isError.value = true
-  } finally {
-    isLoading.value = false
-  }
+const {
+  isLoading,
+  isError,
+  data: appointments,
+  refetch,
+} = useQuery({
+  queryKey: ["getAppointmentsByUser", user.uid],
+  queryFn: () => getAppointmentsByUser(user.uid),
 })
-onIonViewWillEnter(async () => {
-  try {
-    isLoading.value = true
-    console.log("reloading")
-    appointments.value = await getAppointmentsByUser(user.uid)
-  } catch {
-    isError.value = true
-  } finally {
-    isLoading.value = false
-  }
-})
+onIonViewWillEnter(async () => refetch())
 
 const router = useIonRouter()
 
