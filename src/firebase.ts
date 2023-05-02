@@ -128,6 +128,27 @@ export type Appointment = {
   }[]
 }
 
+export async function getAppointmentsByDate(actualDate: string) {
+  const db = getFirestore()
+  const appointments: Appointment[] = []
+
+  const querySnapshot = await getDocs(
+    query(
+      collectionGroup(db, "appointments"),
+      where("actualDate", "==", actualDate)
+    )
+  )
+
+  querySnapshot.forEach((doc) => {
+    appointments.push({
+      id: doc.id,
+      ...doc.data(),
+    } as Appointment)
+  })
+
+  return appointments
+}
+
 export async function getAppointmentsByUser(userId: string) {
   const db = getFirestore()
   const appointments: Appointment[] = []
@@ -167,10 +188,5 @@ export async function createAppointment(
 
 export async function deleteAppointment(userId: string, appointmentId: string) {
   const db = getFirestore()
-  try {
-    await deleteDoc(doc(db, `users/${userId}/appointments/${appointmentId}`))
-    console.log("deleted appointment", appointmentId)
-  } catch (e) {
-    console.log("deleted appointment error", e)
-  }
+  await deleteDoc(doc(db, `users/${userId}/appointments/${appointmentId}`))
 }
