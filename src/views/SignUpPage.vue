@@ -22,6 +22,14 @@
         </ion-item>
       </ion-list>
       <ion-button :expand="'block'" @click="onSignUp">Sign Up</ion-button>
+
+      <ion-alert
+        :is-open="alert.isOpen"
+        :header="alert.header"
+        :message="alert.message"
+        :buttons="alert.buttons"
+        @didDismiss="alert.isOpen = false"
+      />
     </ion-content>
   </ion-page>
 </template>
@@ -39,9 +47,10 @@ import {
   IonBackButton,
   IonList,
   IonItem,
+  IonAlert,
+  useIonRouter,
 } from "@ionic/vue"
-import { ref } from "vue"
-import { useRouter } from "vue-router"
+import { reactive, ref } from "vue"
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { auth } from "../firebase"
 import { FirebaseError } from "@firebase/util"
@@ -52,7 +61,19 @@ useRedirectIfAuthenticated()
 const displayName = ref("")
 const email = ref("")
 const password = ref("")
-const router = useRouter()
+const router = useIonRouter()
+
+const alert = reactive<{
+  isOpen: boolean
+  header: string
+  message: string
+  buttons: string[] | { text: string; role: string; handler: () => void }[]
+}>({
+  isOpen: false,
+  header: "",
+  message: "",
+  buttons: ["OK"],
+})
 
 async function onSignUp() {
   try {
@@ -64,15 +85,51 @@ async function onSignUp() {
     await updateProfile(user, {
       displayName: displayName.value,
     })
-    router.replace("/dashboard")
+
+    alert.header = "Congratulations!"
+    alert.message =
+      "Your account has been created. Make sure to add your pets, before making an appointment."
+    alert.isOpen = true
+    alert.buttons = [
+      {
+        text: "OK",
+        role: "confirm",
+        handler: () => {
+          router.replace("/dashboard")
+        },
+      },
+    ]
   } catch (e) {
     if (e instanceof FirebaseError) {
+      console.log("no code?", e.code)
       if (e.code === "auth/email-already-in-use") {
-        router.push("/sign-in")
+        alert.header = "Error"
+        alert.message =
+          "This email address is already in use. Try logging in instead."
+        alert.buttons = [
+          {
+            text: "OK",
+            role: "confirm",
+            handler: () => {
+              router.navigate("/signin")
+            },
+          },
+        ]
+        alert.isOpen = true
+        return
       }
-    } else {
-      console.log("An error has occured", e)
+
+      alert.header = "Unknown Firebase error occured"
+      alert.message = e.message
+      alert.isOpen = true
+      return
     }
+
+    alert.header = "Unknown error occured"
+    alert.message =
+      "An unknown error has occured. Please check the Console tab for more information"
+    alert.isOpen = true
+    console.log(e)
   }
 }
 </script>
