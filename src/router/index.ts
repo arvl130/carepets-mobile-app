@@ -16,6 +16,7 @@ import EditCatPage from "../views/Dashboard/MyPets/Cats/EditCatPage/EditCatPage.
 import DogsPage from "../views/Dashboard/MyPets/Dogs/DogsPage/DogsPage.vue"
 import AddDogPage from "../views/Dashboard/MyPets/Dogs/AddDogPage/AddDogPage.vue"
 import EditDogPage from "../views/Dashboard/MyPets/Dogs/EditDogPage/EditDogPage.vue"
+import ForgotPasswordPage from "../views/ForgotPasswordPage.vue"
 
 // Appointments
 import ListAppointmentsPage from "../views/Dashboard/appointments/list/Page.vue"
@@ -145,6 +146,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/appointments/create/confirmation",
     name: "Appointments - Step Six",
     component: CreateAppointmentStepSixPage,
+  },
+  {
+    path: "/forgot-password",
+    name: "Forgot Password",
+    component: ForgotPasswordPage,
   },
 ]
 

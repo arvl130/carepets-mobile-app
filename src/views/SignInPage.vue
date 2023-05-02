@@ -25,9 +25,13 @@
       </ion-list>
 
       <div class="flex justify-end mb-8">
-        <ion-nav-link class="underline text-gray-500">
+        <ion-text
+          class="underline text-gray-500"
+          router-link="/forgot-password"
+          router-direction="forward"
+        >
           Forgot Password?
-        </ion-nav-link>
+        </ion-text>
       </div>
       <ion-button expand="full" @click="onSignIn" class="mb-8">
         Sign In
