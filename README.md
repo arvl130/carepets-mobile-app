@@ -37,11 +37,11 @@ A web browser should appear previewing the mobile application.
 ## Setup for Building
 
 To setup for building, you will need to follow the steps above. After you have
-completed those, you have to install the SDKs for your target platform.
+completed those, you have to install the SDK for your target platform.
 
 For Android, you will need to install [Android Studio](https://developer.android.com/studio/install) with the Android SDK.
 
-For iOS, you will need to install [Xcode](https://developer.apple.com/xcode) on a computer runinng macOS.
+For iOS, you will need to install [Xcode](https://developer.apple.com/xcode) on a computer running macOS.
 
 To generate Android and iOS projects, run the command below:
 
