@@ -2,6 +2,8 @@
 
 Pet care service appointments scheduling mobile application. The goal is to take care of your pets!
 
+To download our application, click [here](https://github.com/arvl130/carepets-mobile-app/releases/download/download-here/CarePets-2023-05-02-1.apk).
+
 ## Setup for Development
 
 This app based on the [Ionic Framework](https://ionicframework.com). To setup for
